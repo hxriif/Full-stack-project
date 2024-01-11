@@ -20,6 +20,7 @@ function Home() {
             {/* <Allproduct /> */}
 
             <Productcategory />
+            
             <div>
               <img
                 className="ms-4"
@@ -71,7 +72,7 @@ function Home() {
           </>
         ) : (
           <>
-            <Allproduct />
+            <Allproduct/>
             <Productcategory />
           </>
         )}

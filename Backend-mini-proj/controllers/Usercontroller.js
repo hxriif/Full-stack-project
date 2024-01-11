@@ -120,6 +120,7 @@ module.exports = {
 
   userViewProduct: async (req, res) => {
     const products = await Products.find();
+    console.log("hhh")
     if (!products) {
       return res.status(404).json({
         status: "error",
