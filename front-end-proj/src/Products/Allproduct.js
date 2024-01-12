@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {Button} from 'react-bootstrap'
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Axios } from "../App";
+// import { Axios } from "../App";
 // import Navbar from "../component/Navbar";
 
 
@@ -19,7 +19,7 @@ export const Allproduct=()=>{
     useEffect(() => {
       const productsfetch=async()=>{
         try {
-          const response=await Axios.get("http://localhost:3003/api/users/products")
+          const response=await axios.get("http://localhost:3003/api/users/products")
           console.log(response)
           if(response.status === 200){
             setproducts(response.data.data)

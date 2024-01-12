@@ -6,23 +6,25 @@ const userVerifyToken=require('../middlewares/userAuthMiddleware')
      
 router
   .post("/register", TryCatchMiddleware(Usercontroller.userRegister))
-  .post("/login", TryCatchMiddleware(Usercontroller.userlogin))
+  .post("/login", TryCatchMiddleware(Usercontroller.userlogin))   
 
+  .get("/products",TryCatchMiddleware(Usercontroller.userViewProduct))
+  .get("/view/:id",TryCatchMiddleware(Usercontroller.productById))
+  .get("/products/:categoryname",TryCatchMiddleware(Usercontroller.productByCategory))
+  
 .use(userVerifyToken)  
-
-.get("/products",TryCatchMiddleware(Usercontroller.userViewProduct))
-.get("/view/:id",TryCatchMiddleware(Usercontroller.productById))
-.get("/products/:categoryname",TryCatchMiddleware(Usercontroller.productByCategory))
-.post("/:id/cart",TryCatchMiddleware(Usercontroller.addToCart))
+    
+.post("/:id/cart",TryCatchMiddleware(Usercontroller.addToCart))    
 .get("/:id/cart",TryCatchMiddleware(Usercontroller.viewcart))
+.delete("/:id/cart/:itemId",TryCatchMiddleware(Usercontroller.DeleteCart))
 .post("/:id/wishlists",TryCatchMiddleware(Usercontroller.AddToWishlist))
 .get("/:id/viewWishlist",TryCatchMiddleware(Usercontroller.viewwishlist))
 .delete("/:id/removewishlist",TryCatchMiddleware(Usercontroller.deleteWishlist))
 .post("/:id/payment",TryCatchMiddleware(Usercontroller.payment))
 .get("/payment/success",TryCatchMiddleware(Usercontroller.success))
-.post("/payment/cancel",TryCatchMiddleware(Usercontroller.cancel))
-.get("/:id/orders",TryCatchMiddleware(Usercontroller.orderDetails))
-    
-     
+.post("/payment/cancel",TryCatchMiddleware(Usercontroller.cancel))   
+.get("/:id/orders",TryCatchMiddleware(Usercontroller.orderDetails))       
+        
+          
 module.exports = router;    
-                
+                           

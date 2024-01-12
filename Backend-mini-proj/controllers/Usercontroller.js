@@ -227,6 +227,36 @@ module.exports = {
       data: cartproducts,
     });
   },
+
+  DeleteCart:async(req,res)=>{
+    const userId=req.params.id
+    const itemId=req.params.itemId
+
+    if(!itemId){
+        return res.status(400).json({
+            status:"error",
+            message:"Product not found"
+        })
+    }
+    const user= await userschema.findById(userId)
+    if(!user){
+        return res.status(400).json({
+            status:"error",
+            message:"User Not Found"
+        })   
+    }
+    const result = await userschema.updateOne( 
+        { _id: userId },
+        { $pull: { cart: { productsId:itemId } } }
+      );
+       
+    if (result.modifiedCount > 0) {
+        console.log("Item removed successfully");
+        res.status(200).json({message:"Product removed successfuly",data: result})
+      } else {
+        console.log("Item not found in the cart");
+      }
+},
   AddToWishlist: async (req, res) => {
     const userId = req.params.id;
     if (!userId) {

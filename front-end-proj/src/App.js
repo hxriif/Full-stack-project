@@ -31,15 +31,15 @@ import { userdetails } from './component/Usersdummy';
 import ViewUsers from './component/Users';
 import Moredetails from './component/Viewuserprofile';
 
-export const Axios= axios.create({
-  baseURL: process.env.REACT_BASE_URL || "http://localhost:3003",
+export const Axios = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL || "http://localhost:3003",
   headers: {
-    "Content-Type":"application/json",
-    Authorization:localStorage.getItem('jwt')
+    "Content-Type": "application/json",
+    Authorization: localStorage.getItem('jwt')
   }
-})
+});
 
-
+console.log(process.env.REACT_APP_BASE_URL)
 
 function App() {
   const [serchTerm,setSerchTerm] = useState("")
