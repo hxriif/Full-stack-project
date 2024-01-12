@@ -10,6 +10,7 @@ import axios from 'axios'
 const Toyss=()=> {
     const Navigate=useNavigate();
     const [products,setproducts]=useState([])
+    console.log(products,"gg")
     const category="toy"
 
     useEffect(()=>{

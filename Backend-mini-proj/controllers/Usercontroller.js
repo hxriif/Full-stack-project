@@ -120,7 +120,6 @@ module.exports = {
 
   userViewProduct: async (req, res) => {
     const products = await Products.find();
-    console.log("hhh")
     if (!products) {
       return res.status(404).json({
         status: "error",
@@ -161,7 +160,7 @@ module.exports = {
     res.status(200).json({
       status: "success",
       message: "product category fetched✅",
-      data: { product },
+      data:  product ,
     });
   },
   addToCart: async (req, res) => {
@@ -187,7 +186,7 @@ module.exports = {
     };
     try {
       await userschema.updateOne(
-        { _id: user._id },
+        { _id: user._id },  
         { $push: { cart: productObject } }
       );
       res.status(200).json({
@@ -210,18 +209,19 @@ module.exports = {
         message: "user not found ",
       });
     }
-    const userProductId = user.cart;
+    const userProductId = user.cart;   
     if (userProductId.length === 0) {
+      console.log(userProductId)      
       res.status(200).json({
-        stauts: "success",
-        message: "user cart is empty",
+        stauts: "success",    
+        message: "user cart is empty",  
         data: [],
       });
     }
     const cartproducts = await userschema
       .findOne({ _id: UserId })
-      .populate("cart.productsId");
-    res.status(200).json({
+      .populate("cart.productsId");  
+   return res.status(200).json({
       status: "success",
       message: "cart product fetched successfully",
       data: cartproducts,
@@ -229,40 +229,43 @@ module.exports = {
   },
 
   DeleteCart:async(req,res)=>{
-    const userId=req.params.id
+    const userId=req.params.id   
     const itemId=req.params.itemId
-
+  
     if(!itemId){
         return res.status(400).json({
             status:"error",
             message:"Product not found"
         })
-    }
-    const user= await userschema.findById(userId)
+    }    
+    const user= await userschema.findById(userId)    
     if(!user){
         return res.status(400).json({
             status:"error",
             message:"User Not Found"
-        })   
-    }
+        })        
+    }           
     const result = await userschema.updateOne( 
         { _id: userId },
-        { $pull: { cart: { productsId:itemId } } }
+        { $pull: { cart: { productsId:itemId } } }   
       );
-       
+          
     if (result.modifiedCount > 0) {
         console.log("Item removed successfully");
-        res.status(200).json({message:"Product removed successfuly",data: result})
+         res.status(200).json({message:"Product removed successfuly",data: result})
       } else {
         console.log("Item not found in the cart");
-      }
+      }  
 },
+
+
+
   AddToWishlist: async (req, res) => {
-    const userId = req.params.id;
-    if (!userId) {
+    const userId = req.params.id;    
+    if (!userId) {   
       res.status(404).json({
-        status: "error",
-        message: "user not found",
+        status: "error",   
+        message: "user not found",   
       });
     }
     const { productId } = req.body;

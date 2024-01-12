@@ -20,7 +20,6 @@ export const Allproduct=()=>{
       const productsfetch=async()=>{
         try {
           const response=await axios.get("http://localhost:3003/api/users/products")
-          console.log(response)
           if(response.status === 200){
             setproducts(response.data.data)
           }

@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 
 export default function Carts() {
   const [ cart, setcart ] = useState([]);
+  console.log(cart,"gdfgfge")
   const userid=localStorage.getItem("UserId")
 
   const navigat = useNavigate();
@@ -29,7 +30,6 @@ export default function Carts() {
   const FetchCartproducts=async()=>{
     try {
       const response=await Axios.get(`api/users/${userid}/cart`)
-      console.log(response.data.data.cart)
       if(response.status ===200){
         setcart(response.data.data.cart);
       }
@@ -46,6 +46,7 @@ export default function Carts() {
   const handleRemoveItem=async(itemId)=>{
     try {
       const response=await Axios.delete(`/api/users/${userid}/cart/${itemId}`)
+      console.log(response,"dfgfd")
       if (response.status === 200) {
         toast.success(response.data.message)
         return FetchCartproducts()
@@ -76,8 +77,8 @@ export default function Carts() {
                 >
                   Cart products
                 </MDBTypography>
-                {cart.map((item, index) => (
-                  <div className="d-flex align-items-center mb-4" key={index}>
+                {cart && cart.map((item) => (
+                  <div className="d-flex align-items-center mb-4" key={cart.productsId}>
                     <div className="flex-shrink-0">
                       <MDBCardImage
                          src={item.productsId.image}

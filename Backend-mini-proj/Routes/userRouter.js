@@ -26,5 +26,5 @@ router
 .get("/:id/orders",TryCatchMiddleware(Usercontroller.orderDetails))       
         
           
-module.exports = router;    
+module.exports = router;       
                            

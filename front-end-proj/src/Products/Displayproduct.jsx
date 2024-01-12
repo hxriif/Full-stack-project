@@ -67,6 +67,8 @@ const userid=localStorage.getItem("UserId")
     }
   };
 
+  
+
   // const handleAddToCart = () => {
   //   if (cart.includes(viewProduct[0])) {
   //     alert("Product is already added to the cart");

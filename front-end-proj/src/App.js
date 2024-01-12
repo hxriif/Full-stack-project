@@ -39,7 +39,6 @@ export const Axios = axios.create({
   }
 });
 
-console.log(process.env.REACT_APP_BASE_URL)
 
 function App() {
   const [serchTerm,setSerchTerm] = useState("")
