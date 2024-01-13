@@ -51,12 +51,13 @@ const userid=localStorage.getItem("UserId")
 
   const handleAddToCart = async (id) => {
     try {
-      const response = await Axios.post( `/api/users/${userid}/cart`,{producId: id })
+      const response = await Axios.post( `/api/users/${userid}/cart`,{productsId: id })
+      console.log(response,"hhhh")
       if (response.status === 200){
         await Axios.get(`/api/users/${userid}/cart`)
           return toast.success("Product added to the cart!")
       }
-      if(response.status === 400){
+      if(response.status === 404){   
          return toast.error("Product already included!!") 
 
       }
@@ -68,19 +69,6 @@ const userid=localStorage.getItem("UserId")
   };
 
   
-
-  // const handleAddToCart = () => {
-  //   if (cart.includes(viewProduct[0])) {
-  //     alert("Product is already added to the cart");
-  //   } else {
-  //     // Add the selected product to the cart
-  //     addcart(()=>[...cart, ...viewProduct]);
-  //     console.log(cart);
-  //     alert("Product successfully added to the cart");
-  //   }
-  //   navigate("/cart")
-  // };
-
   const handleBuyNow = () => {
     navigate('/cart');
   };

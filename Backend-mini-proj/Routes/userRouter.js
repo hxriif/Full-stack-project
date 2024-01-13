@@ -15,7 +15,7 @@ router
 .use(userVerifyToken)  
     
 .post("/:id/cart",TryCatchMiddleware(Usercontroller.addToCart))    
-.get("/:id/cart",TryCatchMiddleware(Usercontroller.viewcart))
+.get("/:id/view/cart/",TryCatchMiddleware(Usercontroller.viewcart))
 .delete("/:id/cart/:itemId",TryCatchMiddleware(Usercontroller.DeleteCart))
 .post("/:id/wishlists",TryCatchMiddleware(Usercontroller.AddToWishlist))
 .get("/:id/viewWishlist",TryCatchMiddleware(Usercontroller.viewwishlist))
@@ -26,5 +26,5 @@ router
 .get("/:id/orders",TryCatchMiddleware(Usercontroller.orderDetails))       
         
           
-module.exports = router;       
+module.exports = router;          
                            

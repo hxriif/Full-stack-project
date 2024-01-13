@@ -118,6 +118,9 @@ module.exports = {
   },
 
 
+
+
+
   userViewProduct: async (req, res) => {
     const products = await Products.find();
     if (!products) {
@@ -132,6 +135,9 @@ module.exports = {
       data: products,
     });
   },
+
+
+
 
   productById: async (req, res) => {
     const productId = req.params.id;
@@ -148,6 +154,10 @@ module.exports = {
       data: product,
     });
   },
+
+
+
+
   productByCategory: async (req, res) => {
     const productcategory = req.params.categoryname;
     const product = await Products.find({ category: productcategory });
@@ -163,43 +173,71 @@ module.exports = {
       data:  product ,
     });
   },
-  addToCart: async (req, res) => {
-    const userId = req.params.id;
+
+
+
+
+
+  addToCart: async (req, res) => {  
+    const userId = req.params.id;  
+
     const user = await userschema.findById(userId);
-
     if (!user) {
-      res.status(404).json({
-        status: "error",
-        message: "user not found",
-      });
-    }
-    const { producId } = req.body;
+    return res.status(404).json({
+        status: "error", 
+        message: "User Not Found",
+    });
+    } 
+    const { productId } = req.body;
+    
 
-    if (!producId) {
-      res.status(404).json({
+    // Check if productId is provided
+    if (!productId) {
+    return res.status(404).json({
         status: "error",
-        message: "product not found",
-      });
+        message: "Product Not Found",
+    });    
+    }
+    if (!ObjectId.isValid(productId)) {
+        return res.status(400).json({    
+            status: "error",
+            message: "Invalid Product ID",
+        });
+    }
+  //  check if product already in cart
+    const isProductInCart = user.cart.some(item => item.productsId.equals(productId));
+   
+    if (isProductInCart) {
+        return res.status(400).json({
+            status: "error",
+            message: "Product already in cart",
+        });
     }
     const productObject = {
-      productsId: new ObjectId(producId),
-    };
+        productsId: new  ObjectId(productId),
+        quantity: req.body.quantity,      
+    }
+    
     try {
-      await userschema.updateOne(
-        { _id: user._id },  
-        { $push: { cart: productObject } }
-      );
-      res.status(200).json({
+    await userschema.updateOne({ _id: user._id }, { $addToSet: { cart:productObject } });
+    res.status(200).json({
         status: "success",
-        message: "successfully product added to cart",
-      });
-    } catch {
-      res.status(500).json({
+        message: "Product Successfully Added To Cart",
+    });
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({
         status: "error",
-        message: "internal server error",
-      });
+        message: "Internal Server Error",
+    });
     }
   },
+
+
+
+
+
+
   viewcart: async (req, res) => {
     const UserId = req.params.id;
     const user = await userschema.findById(UserId);
@@ -228,6 +266,9 @@ module.exports = {
       data: cartproducts,
     });
   },
+
+
+
   
   DeleteCart:async(req,res)=>{
     const userId=req.params.id   
@@ -258,6 +299,8 @@ module.exports = {
         console.log("Item not found in the cart");
       }  
 },
+
+
 
 
 
@@ -296,6 +339,10 @@ module.exports = {
       messsage: "successfully product added to wishlist",
     });
   },
+
+
+
+
   viewwishlist: async (req, res) => {
     const userId = req.params.id;
     const user = await userschema.findById(userId);
@@ -322,6 +369,10 @@ module.exports = {
       data: wishlistproduct,
     });
   },
+
+
+
+
   deleteWishlist: async (req, res) => {
     const userId = req.params.id;
     const user = await userschema.findById(userId);
@@ -347,6 +398,9 @@ module.exports = {
       message: "product succesfully removed from wishlist ",
     });
   },
+
+
+
   payment: async (req, res) => {
     const userId = req.params.id;
     const user = await userschema
@@ -405,6 +459,10 @@ module.exports = {
       url: session.url,
     });
   },
+
+
+
+
   success: async (req, res) => {
     const { user, Id, session } = Svalue;
     console.log("uuuu:-", Svalue);
@@ -445,6 +503,10 @@ module.exports = {
       });
     }
   },
+
+
+
+
   cancel: async (req, res) => {
     res.status(204).json({
       status: "no content",

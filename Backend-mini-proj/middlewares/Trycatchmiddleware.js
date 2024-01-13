@@ -3,7 +3,7 @@ const TrycatchMiddleware = (TrycatchHandler) => {
     try {
       await TrycatchHandler(req, res, next);   
     } catch (error) {
-      return res.status(500).json({    
+      return res.status(500).json({        
         status: "failure",   
         message: "error",  
         error_message: error.message,
@@ -13,3 +13,4 @@ const TrycatchMiddleware = (TrycatchHandler) => {
   };
 };
 module.exports = TrycatchMiddleware;
+     
