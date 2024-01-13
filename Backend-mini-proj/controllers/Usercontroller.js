@@ -207,16 +207,17 @@ module.exports = {
       res.status(404).json({
         status: "error",
         message: "user not found ",
-      });
+      });   
     }
-    const userProductId = user.cart;   
-    if (userProductId.length === 0) {
+    const userProductId = user.cart;  
+    console.log(userProductId)     
+    if (userProductId.length === 0) {   
       console.log(userProductId)      
       res.status(200).json({
         stauts: "success",    
         message: "user cart is empty",  
         data: [],
-      });
+      });        
     }
     const cartproducts = await userschema
       .findOne({ _id: UserId })
@@ -227,7 +228,7 @@ module.exports = {
       data: cartproducts,
     });
   },
-
+  
   DeleteCart:async(req,res)=>{
     const userId=req.params.id   
     const itemId=req.params.itemId

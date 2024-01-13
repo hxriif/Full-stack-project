@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 
 export default function Carts() {
   const [ cart, setcart ] = useState([]);
-  console.log(cart,"gdfgfge")
+  console.log(cart,"cart")
   const userid=localStorage.getItem("UserId")
 
   const navigat = useNavigate();
@@ -47,9 +47,9 @@ export default function Carts() {
     try {
       const response=await Axios.delete(`/api/users/${userid}/cart/${itemId}`)
       console.log(response,"dfgfd")
-      if (response.status === 200) {
+      if (response?.data.data.message) {
         toast.success(response.data.message)
-        return FetchCartproducts()
+         FetchCartproducts()
       }
     } catch (error) {
       console.error(error);
