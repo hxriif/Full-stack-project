@@ -10,14 +10,16 @@ const order = require("../models/orderSchema");
 let Svalue = {};
 
 module.exports = {
+
+
   
 
   userRegister: async (req, res) => {
     const { value, error } = userjoiSchema.validate(req.body);
     // console.log(value)
     if (error) {
-      return (
-        res.status(400).
+      return (  
+        res.status(400).  
         json({
           status: "Error",
           message: "invalid user input data,please enter a valid data",
@@ -47,6 +49,9 @@ module.exports = {
       });
     }
   },
+
+
+
 
 
 
@@ -121,6 +126,8 @@ module.exports = {
 
 
 
+
+
   userViewProduct: async (req, res) => {
     const products = await Products.find();
     if (!products) {
@@ -135,6 +142,7 @@ module.exports = {
       data: products,
     });
   },
+
 
 
 
@@ -154,6 +162,8 @@ module.exports = {
       data: product,
     });
   },
+
+
 
 
 
@@ -178,9 +188,10 @@ module.exports = {
 
 
 
+
   addToCart: async (req, res) => {  
     const userId = req.params.id;  
-
+   
     const user = await userschema.findById(userId);
     if (!user) {
     return res.status(404).json({
@@ -194,7 +205,7 @@ module.exports = {
     // Check if productId is provided
     if (!productId) {
     return res.status(404).json({
-        status: "error",
+        status: "error",  
         message: "Product Not Found",
     });    
     }
@@ -218,7 +229,7 @@ module.exports = {
         quantity: req.body.quantity,      
     }
     
-    try {
+    try {   
     await userschema.updateOne({ _id: user._id }, { $addToSet: { cart:productObject } });
     res.status(200).json({
         status: "success",
@@ -233,6 +244,7 @@ module.exports = {
     }
   },
 
+ 
 
 
 
@@ -242,16 +254,15 @@ module.exports = {
     const UserId = req.params.id;
     const user = await userschema.findById(UserId);
     if (!user) {
-      res.status(404).json({
+     return  res.status(404).json({
         status: "error",
         message: "user not found ",
       });   
     }
     const userProductId = user.cart;  
-    console.log(userProductId)     
     if (userProductId.length === 0) {   
       console.log(userProductId)      
-      res.status(200).json({
+     return  res.status(200).json({  
         stauts: "success",    
         message: "user cart is empty",  
         data: [],
@@ -262,10 +273,12 @@ module.exports = {
       .populate("cart.productsId");  
    return res.status(200).json({
       status: "success",
-      message: "cart product fetched successfully",
+      message: "cart product fetched successfully",   
       data: cartproducts,
     });
   },
+
+
 
 
 
@@ -277,7 +290,7 @@ module.exports = {
     if(!itemId){
         return res.status(400).json({
             status:"error",
-            message:"Product not found"
+            message:"Product not found"   
         })
     }    
     const user= await userschema.findById(userId)    
@@ -293,12 +306,14 @@ module.exports = {
       );
           
     if (result.modifiedCount > 0) {
-        console.log("Item removed successfully");
-         res.status(200).json({message:"Product removed successfuly",data: result})
+        console.log("Item removed successfully");   
+       return res.status(200).json({message:"Product removed successfuly",data: result})
       } else {
         console.log("Item not found in the cart");
       }  
-},
+  },
+
+   
 
 
 
@@ -343,6 +358,8 @@ module.exports = {
 
 
 
+
+
   viewwishlist: async (req, res) => {
     const userId = req.params.id;
     const user = await userschema.findById(userId);
@@ -373,6 +390,8 @@ module.exports = {
 
 
 
+
+
   deleteWishlist: async (req, res) => {
     const userId = req.params.id;
     const user = await userschema.findById(userId);
@@ -398,6 +417,10 @@ module.exports = {
       message: "product succesfully removed from wishlist ",
     });
   },
+
+
+
+
 
 
 
@@ -463,6 +486,9 @@ module.exports = {
 
 
 
+
+
+
   success: async (req, res) => {
     const { user, Id, session } = Svalue;
     console.log("uuuu:-", Svalue);
@@ -505,6 +531,9 @@ module.exports = {
   },
 
 
+  
+
+
 
 
   cancel: async (req, res) => {
@@ -521,14 +550,14 @@ module.exports = {
         status: "error",
         message: "user not found",
       });
-    }
+    }  
     const orderProducts = user.orders;
     if (orderProducts.length === 0) {
-      return res.status(404).json({
-        message: "don't have any products",
+      return res.status(404).json({  
+        message: "don't have any products",   
         data: [],
       });
-    }
+    }   
     const orderItems = await order.find({ _id:{ $in: orderProducts }}).populate("products");
     return res.status(200).json({
       status: "success",
@@ -536,4 +565,4 @@ module.exports = {
       data: orderItems,
     });
   },
-};
+};    

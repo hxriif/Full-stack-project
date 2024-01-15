@@ -1,14 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Mycontext } from "../Context/Context";
 import Navbar from "../component/Navbar";
-import Footer from "../Footer/Footer";
 import {
   MDBCard,
-  MDBCardBody,
-  MDBCardTitle,
-  MDBCardText,
-  MDBCardImage,
   MDBBtn,
   MDBRow,
   MDBCol,
@@ -21,9 +15,7 @@ import toast from "react-hot-toast";
 
 export default function View() {
   const { id } = useParams();
-  // const { babypro, cart, addcart } = useContext(Mycontext);
   const [Products,setproducts]=useState([])
-  const [count, setCount] = useState(1);
   const navigate = useNavigate();
 const userid=localStorage.getItem("UserId")
 // const Username=localStorage.getItem("UserName")
@@ -33,7 +25,6 @@ const userid=localStorage.getItem("UserId")
   const fetchedData=async()=>{
     try{
       const response=await Axios.get(`/api/users/view/${id}`)
-      // console.log(response,"gg")
       if(response.status===200){
         setproducts(response.data.data||[])
       }
@@ -51,27 +42,26 @@ const userid=localStorage.getItem("UserId")
 
   const handleAddToCart = async (id) => {
     try {
-      const response = await Axios.post( `/api/users/${userid}/cart`,{productsId: id })
-      console.log(response,"hhhh")
-      if (response.status === 200){
+      const response = await Axios.post( `/api/users/${userid}/cart`,{productId:id })
+      console.log(response,"harif")
+      if (response){
         await Axios.get(`/api/users/${userid}/cart`)
           return toast.success("Product added to the cart!")
       }
-      if(response.status === 404){   
-         return toast.error("Product already included!!") 
+      // if(response.status === 404){   
+      //    return toast.error("Product already included!!") 
 
-      }
+      // }
       
     } catch (error) {
       console.error('Error adding product to the cart:', error)
       toast.error(error.response.data.message)
     }
+    // navigate("/cart")
   };
 
   
-  const handleBuyNow = () => {
-    navigate('/cart');
-  };
+ 
 
   return(
     <>
@@ -115,7 +105,7 @@ const userid=localStorage.getItem("UserId")
                       </span>
                       <h3>
                         <span className="blockquote-footer">
-                          Offer Price :{" "}
+                          Price 
                         </span>
                         {Products.price}
                       </h3>
@@ -135,7 +125,7 @@ const userid=localStorage.getItem("UserId")
                         color="primary"
                         className="ms-1"
                         id={Products.id}
-                        onClick={() => handleAddToCart(Products._id)}
+                        onClick={() => handleAddToCart(Products._id)} 
                       >
                         Add to cart <i className="fas fa-shopping-cart ms-1"></i>
                       </MDBBtn>
