@@ -60,6 +60,19 @@ const userid=localStorage.getItem("UserId")
     // navigate("/cart")
   };
 
+  const handleAddToWishlist=async(productId)=>{
+    try{
+       await Axios.post(`/api/users/${userid}/wishlists`,{productId})
+       const response=await Axios.get(`/api/users/${userid}/viewWishlist`)
+      setproducts(response.data.data)
+      toast.success("succesfully added")
+    }
+  catch(error){
+     toast.error("error adding product to whishlist")
+     console.log(error)
+  }
+  }
+
   
  
 
@@ -131,14 +144,14 @@ const userid=localStorage.getItem("UserId")
                       </MDBBtn>
                     </form>
                     <div>
-                      {/* <MDBBtn
+                      <MDBBtn
                         color="outline-primary"
                         size="lg"
                         id={Products.id}
-                        onClick={() => handleAddToCart(Products._id)}
+                        onClick={() => handleAddToWishlist(Products._id) }
                       >
-                        BUY NOW
-                      </MDBBtn> */}
+                        Add To Wishlist
+                      </MDBBtn>
                     </div>
                   </div>
                 </MDBCard>
