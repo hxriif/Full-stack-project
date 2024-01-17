@@ -13,7 +13,7 @@ router
   .get("/products/:categoryname",TryCatchMiddleware(Usercontroller.productByCategory))
   
 .use(userVerifyToken)  
-        
+          
 .post("/:id/cart",TryCatchMiddleware(Usercontroller.addToCart))    
 .get("/:id/view/cart/",TryCatchMiddleware(Usercontroller.viewcart))
 .delete("/:id/cart/:itemId",TryCatchMiddleware(Usercontroller.DeleteCart))

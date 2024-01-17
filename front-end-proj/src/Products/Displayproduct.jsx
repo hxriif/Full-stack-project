@@ -73,6 +73,22 @@ const userid=localStorage.getItem("UserId")
   }
   }
 
+  const handleCheckout=async()=>{
+    try{
+      const response=await Axios.post(`/api/users/${userid}/payment`)
+      console.log("response",response)
+      if(response.status===200){
+        const url=response.data.url
+        const conformation=window.confirm("Payment session created. Redirecting to the payment gateway. Continue?")
+        if(conformation)window.location.replace(url)
+      }
+    }
+    catch(error){
+      toast.error("error.respones.data.message")
+    }
+  }
+
+
   
  
 
@@ -161,7 +177,7 @@ const userid=localStorage.getItem("UserId")
                         // color="outline-primary"
                         size="lg"
                         id={Products.id}
-                        // onClick={()}
+                        onClick={()=>handleCheckout()}
                       >
                        <i class="fa-solid fa-credit-card"></i>
                       </MDBBtn>
