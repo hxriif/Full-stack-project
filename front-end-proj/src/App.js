@@ -30,6 +30,8 @@ import AdminProduct from './component/Adminaddproduct';
 import { userdetails } from './component/Usersdummy';
 import ViewUsers from './component/Users';
 import Moredetails from './component/Viewuserprofile';
+import { Toaster } from 'react-hot-toast';
+import Wishlist from './Products/wishlist';
 
 export const Axios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL || "http://localhost:3003",
@@ -50,7 +52,7 @@ function App() {
   return (
     <>
     <Mycontext.Provider value={{cart,addcart,Babyproducts,serchTerm,setSerchTerm,logged,setlogged,babypro,setbabypro,userdetail,setuserdetail}}>
-    
+    <Toaster position="top-center" reverseOrder={false}/>
 
     <Routes>
       <Route path='a' element={<Adminnav/>}/>
@@ -76,6 +78,7 @@ function App() {
       <Route path='/user' element={<ViewUsers/>}/>
       <Route path='/more/:id' element={<Moredetails/>}/>
       <Route path='/cart' element={<Carts/>}/>
+      <Route path='/wish' element={<Wishlist/>}/>
 
 
     </Routes>

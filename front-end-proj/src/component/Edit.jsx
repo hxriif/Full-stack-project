@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-// import { Productcontext } from '../../Context';
 import { useNavigate, useParams } from "react-router-dom";
-import { Mycontext } from "../Context/Context";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-// ... (imports)
 
 export default function EditProduct() {
     const { id } = useParams();

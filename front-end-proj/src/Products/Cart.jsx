@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
 import {
-  MDBBtn,
   MDBCard,
   MDBCardBody,
   MDBCardImage,
@@ -30,7 +29,7 @@ const Carts = () => {
   const fetchCartProducts = async () => {
     try {
       const response = await Axios.get(`api/users/${userId}/view/cart`);
-      console.log(response,"hhh")
+      // console.log(response,"hhh")
       setCart(response.data.data.cart);
     } catch (error) {
       console.error(error);
@@ -51,7 +50,7 @@ const Carts = () => {
 
   useEffect(() => {
     fetchCartProducts();
-  }, [ handleRemoveItem()]);
+  }, []);
 
 
 

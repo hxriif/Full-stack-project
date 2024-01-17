@@ -13,7 +13,7 @@ router
   .get("/products/:categoryname",TryCatchMiddleware(Usercontroller.productByCategory))
   
 .use(userVerifyToken)  
-    
+        
 .post("/:id/cart",TryCatchMiddleware(Usercontroller.addToCart))    
 .get("/:id/view/cart/",TryCatchMiddleware(Usercontroller.viewcart))
 .delete("/:id/cart/:itemId",TryCatchMiddleware(Usercontroller.DeleteCart))
@@ -23,7 +23,7 @@ router
 .post("/:id/payment",TryCatchMiddleware(Usercontroller.payment))
 .get("/payment/success",TryCatchMiddleware(Usercontroller.success))
 .post("/payment/cancel",TryCatchMiddleware(Usercontroller.cancel))   
-.get("/:id/orders",TryCatchMiddleware(Usercontroller.orderDetails))       
+.get("/:id/orders",TryCatchMiddleware(Usercontroller.orderDetails))             
         
           
 module.exports = router;          

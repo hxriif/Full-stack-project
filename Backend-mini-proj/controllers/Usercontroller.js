@@ -322,7 +322,7 @@ module.exports = {
   AddToWishlist: async (req, res) => {
     const userId = req.params.id;    
     if (!userId) {   
-      res.status(404).json({
+     return res.status(404).json({
         status: "error",   
         message: "user not found",   
       });
@@ -330,7 +330,7 @@ module.exports = {
     const { productId } = req.body;
     const products = await Products.findById(productId);
     if (!products) {
-      res.status(404).json({
+     return  res.status(404).json({
         status: "error",
         message: "product not found",
       });
@@ -366,12 +366,12 @@ module.exports = {
     if (!user) {
       res.status(404).json({
         status: "error",
-        message: "user not found",
+        message: "user not found",  
       });
     }
     const wishlistproductId = user.wishlist;
     if (wishlistproductId.length === 0) {
-      res.status(404).json({
+       return res.status(404).json({
         status: "success",
         message: "empty wishlist",
         data: [],
@@ -396,14 +396,14 @@ module.exports = {
     const userId = req.params.id;
     const user = await userschema.findById(userId);
     if (!user) {
-      res.status(404).json({
+     return  res.status(404).json({  
         status: "error",
         message: "user not found",
       });
     }
     const { productId } = req.body;
     if (!productId) {
-      res.status(404).json({
+     return  res.status(404).json({    
         status: "error",
         message: "product not found",
       });
@@ -455,7 +455,7 @@ module.exports = {
           unit_amount: Math.round(item.productsId.price * 100),
         },
         quantity: 1,
-      };
+      };   
     });
     session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

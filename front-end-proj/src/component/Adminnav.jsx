@@ -55,7 +55,7 @@ export default function Adminnav() {
             {/* <MDBNavbarItem>
               <MDBNavbarLink onClick={()=>navigate('/login')}>Logout</MDBNavbarLink>
             </MDBNavbarItem> */}
-           < MDBBtn className='ms-5' onClick={()=>navigate('/login')}>Logout</MDBBtn>
+           < MDBBtn className='ms-5' style={{backgroundColor:"black"}} onClick={()=>navigate('/login')}>Logout</MDBBtn>
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>

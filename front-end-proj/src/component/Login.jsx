@@ -27,10 +27,7 @@ export default function Loginform() {
 
     const Email = a.target.email.value;
     const Password = a.target.password.value;
-    // console.log("eeee",Email)
-    // console.log("password",Password)
     const adminemail = process.env.REACT_APP_ADMIN_EMAIL;
-    // console.log("nnn", adminemail);
 
     if (Email === "" || Password === "") {
       toast.error("Input field is empty");
@@ -88,8 +85,8 @@ export default function Loginform() {
         <MDBCard>
           <MDBRow className="g-0">
             <MDBCol md="6">
-              <MDBCardImage
-                src="https://i.pinimg.com/474x/dd/bc/fa/ddbcfa9286a78e092e91eaaf94640eb3.jpg"
+              <MDBCardImage style={{height:"500px"}}
+                src="https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="login form"
                 className="rounded-start w-100"
               />

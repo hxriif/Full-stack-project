@@ -41,8 +41,6 @@ export default function Navbar() {
     setlogged(!logged);
   };
 
-  // const[search,setsearch]=useState("");
-
   const handleHome = () => {
     navigate("/");
   };
@@ -92,8 +90,8 @@ export default function Navbar() {
               </MDBNavbarItem>
               <MDBNavbarItem>
                 <MDBNavbarLink
-                  style={{ color: "blue" }}
-                  className="me-3 shadow"
+                  style={{ color: "white" }}
+                  className="me-5 shadow "
                   onClick={() => navigate("/pro")}
                 >
                   Product Category
@@ -115,7 +113,7 @@ export default function Navbar() {
         {!logged ? (
           <>
             <MDBBtn
-              className="me-2"
+              className="me5"
               style={{ backgroundColor: "black" }}
               onClick={() => navigate("/login")}
             >
