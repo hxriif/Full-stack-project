@@ -114,7 +114,7 @@ export default function Navbar() {
           <>
             <MDBBtn
               className="me5"
-              style={{ backgroundColor: "black" }}
+              style={{ backgroundColor: "black",height:"50px" }}
               onClick={() => navigate("/login")}
             >
               login
@@ -124,14 +124,14 @@ export default function Navbar() {
           <>
             <MDBBtn
               className="me-2"
-              style={{ backgroundColor: "black", }}
+              style={{ backgroundColor: "black",height:"50px" }}
               onClick={handlLogout}
             >
               logout
             </MDBBtn>
             <MDBBtn
               className="me-2"
-              style={{ backgroundColor: "black",color:"blue" }}
+              style={{ backgroundColor: "black",color:"blue",height:"50px" }}
               onClick={() => navigate("/cart")}
             >
               <i className="fas fa-cart-shopping"></i>
@@ -139,7 +139,7 @@ export default function Navbar() {
             <MDBBtn
             
               className="me-2"
-              style={{ backgroundColor: "black",color:"red" }}
+              style={{ backgroundColor: "black",color:"red",height:"50px"}}
               onClick={() => navigate("/wish")}
             >
               <i class="fa-solid fa-heart"></i>
