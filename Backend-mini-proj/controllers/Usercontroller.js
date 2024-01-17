@@ -9,35 +9,36 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const order = require("../models/orderSchema");
 let Svalue = {};
 
+
+
+
 module.exports = {
 
 
-  
 
   userRegister: async (req, res) => {
     const { value, error } = userjoiSchema.validate(req.body);
     // console.log(value)
     if (error) {
-      return (  
-        res.status(400).  
-        json({
-          status: "Error",
-          message: "invalid user input data,please enter a valid data",
-        })
-      );
+      return res.status(400).json({
+        status: "Error",
+        message: "invalid user input data,please enter a valid data",
+      });
     }
     try {
-      const { name, email, username, password } = value
-      console.log("nnn",name)
-      await userschema.create({
-        name,
-        email,
-        username,
-        password,
-      }).catch(error => {
-        console.error("Error during user creation:", error);
-        throw error; // Rethrow the error to be caught in the general catch block
-      }); 
+      const { name, email, username, password } = value;
+      console.log("nnn", name);
+      await userschema
+        .create({
+          name,
+          email,
+          username,
+          password,
+        })
+        .catch((error) => {
+          console.error("Error during user creation:", error);
+          throw error; // Rethrow the error to be caught in the general catch block
+        });
       res.status(201).json({
         status: "success",
         message: "user registered successfully",
@@ -45,12 +46,10 @@ module.exports = {
     } catch {
       res.status(500).json({
         status: "Error",
-        message: "internal server error", 
+        message: "internal server error",
       });
     }
   },
-
-
 
 
 
@@ -67,7 +66,7 @@ module.exports = {
       const user = await userschema.findOne({
         email: email,
       });
-      
+
       if (!user) {
         return res.status(404).json({
           status: "error",
@@ -76,8 +75,8 @@ module.exports = {
       }
 
       const id = user.id;
-      const username=user.username
- 
+      const username = user.username;
+
       if (!password || !user.password) {
         return res.status(400).json({
           status: "error",
@@ -91,7 +90,7 @@ module.exports = {
           status: "error",
           message: "incorrect password",
         });
-      }        
+      }
 
       const Token = jwt.sign(
         { email: user.email },
@@ -102,7 +101,7 @@ module.exports = {
       );
       res.setHeader(
         "Set-Cookie",
-        cookie.serialize("token", Token, {      
+        cookie.serialize("token", Token, {
           httpOnly: true,
           maxAge: 8500,
           path: "/",
@@ -112,7 +111,10 @@ module.exports = {
       res.status(200).json({
         status: "success",
         message: "Login Successful",
-        data:  id, email, Token ,username 
+        data: id,
+        email,
+        Token,
+        username,
       });
     } catch (error) {
       res.status(500).json({
@@ -121,9 +123,6 @@ module.exports = {
       });
     }
   },
-
-
-
 
 
 
@@ -146,7 +145,6 @@ module.exports = {
 
 
 
-
   productById: async (req, res) => {
     const productId = req.params.id;
     const product = await Products.findById(productId);
@@ -163,11 +161,6 @@ module.exports = {
     });
   },
 
-
-
-
-
-
   productByCategory: async (req, res) => {
     const productcategory = req.params.categoryname;
     const product = await Products.find({ category: productcategory });
@@ -180,72 +173,71 @@ module.exports = {
     res.status(200).json({
       status: "success",
       message: "product category fetched✅",
-      data:  product ,
+      data: product,
     });
   },
 
 
 
 
+  addToCart: async (req, res) => {
+    const userId = req.params.id;
 
-
-  addToCart: async (req, res) => {  
-    const userId = req.params.id;  
-   
     const user = await userschema.findById(userId);
     if (!user) {
-    return res.status(404).json({
-        status: "error", 
+      return res.status(404).json({
+        status: "error",
         message: "User Not Found",
-    });
-    } 
+      });
+    }
     const { productId } = req.body;
-    
 
     // Check if productId is provided
     if (!productId) {
-    return res.status(404).json({
-        status: "error",  
+      return res.status(404).json({
+        status: "error",
         message: "Product Not Found",
-    });    
+      });
     }
     if (!ObjectId.isValid(productId)) {
-        return res.status(400).json({    
-            status: "error",
-            message: "Invalid Product ID",
-        });
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid Product ID",
+      });
     }
-  //  check if product already in cart
-    const isProductInCart = user.cart.some(item => item.productsId.equals(productId));
-   
+    //  check if product already in cart
+    const isProductInCart = user.cart.some((item) =>
+      item.productsId.equals(productId)
+    );
+
     if (isProductInCart) {
-        return res.status(400).json({
-            status: "error",
-            message: "Product already in cart",
-        });
+      return res.status(400).json({
+        status: "error",
+        message: "Product already in cart",
+      });
     }
     const productObject = {
-        productsId: new  ObjectId(productId),
-        quantity: req.body.quantity,      
-    }
-    
-    try {   
-    await userschema.updateOne({ _id: user._id }, { $addToSet: { cart:productObject } });
-    res.status(200).json({
+      productsId: new ObjectId(productId),
+      quantity: req.body.quantity,
+    };
+
+    try {
+      await userschema.updateOne(
+        { _id: user._id },
+        { $addToSet: { cart: productObject } }
+      );
+      res.status(200).json({
         status: "success",
         message: "Product Successfully Added To Cart",
-    });
+      });
     } catch (error) {
-    console.error(error);
-    res.status(500).json({
+      console.error(error);
+      res.status(500).json({
         status: "error",
         message: "Internal Server Error",
-    });
+      });
     }
   },
-
- 
-
 
 
 
@@ -254,26 +246,26 @@ module.exports = {
     const UserId = req.params.id;
     const user = await userschema.findById(UserId);
     if (!user) {
-     return  res.status(404).json({
+      return res.status(404).json({
         status: "error",
         message: "user not found ",
-      });   
+      });
     }
-    const userProductId = user.cart;  
-    if (userProductId.length === 0) {   
-      console.log(userProductId)      
-     return  res.status(200).json({  
-        stauts: "success",    
-        message: "user cart is empty",  
+    const userProductId = user.cart;
+    if (userProductId.length === 0) {
+      console.log(userProductId);
+      return res.status(200).json({
+        stauts: "success",
+        message: "user cart is empty",
         data: [],
-      });        
+      });
     }
     const cartproducts = await userschema
       .findOne({ _id: UserId })
-      .populate("cart.productsId");  
-   return res.status(200).json({
+      .populate("cart.productsId");
+    return res.status(200).json({
       status: "success",
-      message: "cart product fetched successfully",   
+      message: "cart product fetched successfully",
       data: cartproducts,
     });
   },
@@ -281,56 +273,81 @@ module.exports = {
 
 
 
+  DeleteCart: async (req, res) => {
+    const userId = req.params.id;
+    const itemId = req.params.itemId;
 
-  
-  DeleteCart:async(req,res)=>{
-    const userId=req.params.id   
-    const itemId=req.params.itemId
-  
-    if(!itemId){
-        return res.status(400).json({
-            status:"error",
-            message:"Product not found"   
-        })
-    }    
-    const user= await userschema.findById(userId)    
-    if(!user){
-        return res.status(400).json({
-            status:"error",
-            message:"User Not Found"
-        })        
-    }           
-    const result = await userschema.updateOne( 
-        { _id: userId },
-        { $pull: { cart: { productsId:itemId } } }   
-      );
-          
+    if (!itemId) {
+      return res.status(400).json({
+        status: "error",
+        message: "Product not found",
+      });
+    }
+    const user = await userschema.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        status: "error",
+        message: "User Not Found",
+      });
+    }
+    const result = await userschema.updateOne(
+      { _id: userId },
+      { $pull: { cart: { productsId: itemId } } }
+    );
+
     if (result.modifiedCount > 0) {
-        console.log("Item removed successfully");   
-       return res.status(200).json({message:"Product removed successfuly",data: result})
-      } else {
-        console.log("Item not found in the cart");
-      }  
+      console.log("Item removed successfully");
+      return res
+        .status(200)
+        .json({ message: "Product removed successfuly", data: result });
+    } else {
+      console.log("Item not found in the cart");
+    }
   },
 
-   
 
+
+
+  updateCartItemQuantity: async (req, res) => {
+    const userId = req.params.id;
+    const { id, quantityChange } = req.body;
+
+    const user = await userschema.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        message: "user not found",
+      });
+    }
+    const cartItem = user.cart.id(id);
+    if (!cartItem) {
+      return res.status(404).json({ message: "cart item not found" });
+    }
+    cartItem.quantity += quantityChange;
+    if (cartItem.quantity > 0) {
+      await user.save();
+    }
+    res.status(200).json({
+      status: "success",
+      message: "cart item quantity updated",
+      data: user.cart,
+    });
+  },
 
 
 
 
   AddToWishlist: async (req, res) => {
-    const userId = req.params.id;    
-    if (!userId) {   
-     return res.status(404).json({
-        status: "error",   
-        message: "user not found",   
+    const userId = req.params.id;
+    if (!userId) {
+      return res.status(404).json({
+        status: "error",
+        message: "user not found",
       });
     }
     const { productId } = req.body;
     const products = await Products.findById(productId);
     if (!products) {
-     return  res.status(404).json({
+      return res.status(404).json({
         status: "error",
         message: "product not found",
       });
@@ -358,20 +375,18 @@ module.exports = {
 
 
 
-
-
   viewwishlist: async (req, res) => {
     const userId = req.params.id;
     const user = await userschema.findById(userId);
     if (!user) {
       res.status(404).json({
         status: "error",
-        message: "user not found",  
+        message: "user not found",
       });
     }
     const wishlistproductId = user.wishlist;
     if (wishlistproductId.length === 0) {
-       return res.status(404).json({
+      return res.status(404).json({
         status: "success",
         message: "empty wishlist",
         data: [],
@@ -390,20 +405,18 @@ module.exports = {
 
 
 
-
-
   deleteWishlist: async (req, res) => {
     const userId = req.params.id;
     const user = await userschema.findById(userId);
     if (!user) {
-     return  res.status(404).json({  
+      return res.status(404).json({
         status: "error",
         message: "user not found",
       });
     }
     const { productId } = req.body;
     if (!productId) {
-     return  res.status(404).json({    
+      return res.status(404).json({
         status: "error",
         message: "product not found",
       });
@@ -417,9 +430,6 @@ module.exports = {
       message: "product succesfully removed from wishlist ",
     });
   },
-
-
-
 
 
 
@@ -455,7 +465,7 @@ module.exports = {
           unit_amount: Math.round(item.productsId.price * 100),
         },
         quantity: 1,
-      };   
+      };
     });
     session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -482,9 +492,6 @@ module.exports = {
       url: session.url,
     });
   },
-
-
-
 
 
 
@@ -531,9 +538,6 @@ module.exports = {
   },
 
 
-  
-
-
 
 
   cancel: async (req, res) => {
@@ -550,19 +554,21 @@ module.exports = {
         status: "error",
         message: "user not found",
       });
-    }  
+    }
     const orderProducts = user.orders;
     if (orderProducts.length === 0) {
-      return res.status(404).json({  
-        message: "don't have any products",   
+      return res.status(404).json({
+        message: "don't have any products",
         data: [],
       });
-    }   
-    const orderItems = await order.find({ _id:{ $in: orderProducts }}).populate("products");
+    }
+    const orderItems = await order
+      .find({ _id: { $in: orderProducts } })
+      .populate("products");
     return res.status(200).json({
       status: "success",
       message: "order product details found",
       data: orderItems,
     });
   },
-};    
+};

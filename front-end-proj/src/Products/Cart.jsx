@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Axios } from "../App";
 import toast from "react-hot-toast";
 import {
+  MDBBtn,
   MDBCard,
   MDBCardBody,
   MDBCardImage,
@@ -39,10 +40,11 @@ const Carts = () => {
   const handleRemoveItem = async (itemId) => {
     try {
       const response = await Axios.delete(`/api/users/${userId}/cart/${itemId}`);
-      if (response===200) {
+      if (response) {
         toast.success(response.data.message);
         fetchCartProducts();
       }
+      
     } catch (error) {
       toast.error('Error removing product from the cart');
     }
@@ -51,6 +53,24 @@ const Carts = () => {
   useEffect(() => {
     fetchCartProducts();
   }, []);
+
+  // useEffect(()=>{
+  //   handleRemoveItem()
+  // },[])
+
+  const handleQuantity=async(id,quantityChange)=>{
+   const data={id,quantityChange}
+    try {
+      await Axios.put(`/api/users/${userId}/cart`,data)
+      const response=await Axios.get(`/api/users/${userId}/view/cart`)
+      console.log(response,"hh")
+      if(response.status===200){
+        return fetchCartProducts()
+      }
+    } catch (error) {
+      toast.error(error)
+    }
+  }
 
 
 
@@ -71,7 +91,7 @@ const Carts = () => {
                   Cart products
                 </MDBTypography>
                 {cart && cart.map((item) => (
-                  <div className="d-flex align-items-center mb-4" key={item.productsId}>
+                  <div className="d-flex align-items-center mb-4" key={item.productsId._id}>
                     <div className="flex-shrink-0">
                       <MDBCardImage
                         src={item.productsId.image}
@@ -80,7 +100,6 @@ const Carts = () => {
                         alt={item.productsId.title}
                         />
                     </div>
-
                     <div className="flex-grow-1 ms-3">
                       <a
                         href="#!"
@@ -92,7 +111,7 @@ const Carts = () => {
                       <MDBTypography tag="h5" className="text-primary">
                         {item.productsId.title}
                       </MDBTypography>
-                      {/* <div className="d-flex align-items-center">
+                      <div className="d-flex align-items-center">
                         <p className="fw-bold mb-0 me-4">Price: ${item.productsId.price}</p>
                         <MDBBtn
                                 style={{ border: "1px" }}
@@ -109,7 +128,7 @@ const Carts = () => {
                               >
                             <MDBIcon fas icon="plus" />
                           </MDBBtn>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                 ))}

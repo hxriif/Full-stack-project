@@ -131,12 +131,14 @@ const userid=localStorage.getItem("UserId")
                     <p>{Products.description}</p> 
 
                     <form className="justify-content-left d-flex p-2">
-                      <div className="form-outline me-1" style={{ width: "100px" }}>
+                      {/* <div className="form-outline me-1" style={{ width: "100px" }}>
                         <MDBInput type="number" defaultValue="1" label="Quantity" />
-                      </div>
+                      </div> */}
                       <MDBBtn
-                        color="primary"
-                        className="ms-1"
+                      
+                       style={{backgroundColor:"black",color:"#2fadcc",width:"155px"}}
+                        // color="primary"
+                        className="ms-2"
                         id={Products.id}
                         onClick={() => handleAddToCart(Products._id)} 
                       >
@@ -144,14 +146,26 @@ const userid=localStorage.getItem("UserId")
                       </MDBBtn>
                     </form>
                     <div>
-                      <MDBBtn
-                        color="outline-primary"
+                      <MDBBtn className="ms-3"
+                      style={{backgroundColor:"black",color:"red"}}
+                        // color="outline-primary"
                         size="lg"
                         id={Products.id}
                         onClick={() => handleAddToWishlist(Products._id) }
                       >
-                        Add To Wishlist
+                        <i class="fa-solid fa-heart"></i>
                       </MDBBtn>
+                      <MDBBtn className="ms-3"
+                      style={{backgroundColor:"black",color:"red"}}
+                      
+                        // color="outline-primary"
+                        size="lg"
+                        id={Products.id}
+                        // onClick={()}
+                      >
+                       <i class="fa-solid fa-credit-card"></i>
+                      </MDBBtn>
+                     
                     </div>
                   </div>
                 </MDBCard>

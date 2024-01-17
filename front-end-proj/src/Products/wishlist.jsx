@@ -35,6 +35,7 @@ const removeWishlistproducts=async(productId)=>{
 
       if(response.status===200){
         setproducts(response.data.data)
+        toast.success("product removed")
         fetchwishlistProducts()
       }
     }

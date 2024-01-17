@@ -124,21 +124,22 @@ export default function Navbar() {
           <>
             <MDBBtn
               className="me-2"
-              style={{ backgroundColor: "black" }}
+              style={{ backgroundColor: "black", }}
               onClick={handlLogout}
             >
               logout
             </MDBBtn>
             <MDBBtn
               className="me-2"
-              style={{ backgroundColor: "black" }}
+              style={{ backgroundColor: "black",color:"blue" }}
               onClick={() => navigate("/cart")}
             >
               <i className="fas fa-cart-shopping"></i>
             </MDBBtn>
             <MDBBtn
+            
               className="me-2"
-              style={{ backgroundColor: "black" }}
+              style={{ backgroundColor: "black",color:"red" }}
               onClick={() => navigate("/wish")}
             >
               <i class="fa-solid fa-heart"></i>

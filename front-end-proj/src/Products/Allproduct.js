@@ -78,14 +78,14 @@ return(
                     </div>
 
                     <Button
+                    style={{backgroundColor:"black",color:"red"}}
                       variant="primary"
-                      className="ms-1 card-container"
+                      className="ms-5 card-container"
                       onClick={() => navigate(`/viewp/${products._id}`)}
                       type="submit"
                     >
-                      Viewproduct
-                       {/* <i className="fas fa-shopping-cart ms-1"></i> */}
-                    </Button>
+                      
+                      <i class="fa-solid fa-binoculars"></i>                    </Button>
                   </div>
                 </div>
               </div>
